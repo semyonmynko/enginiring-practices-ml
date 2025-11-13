@@ -1,0 +1,7 @@
+import pandas as pd
+
+df = pd.read_csv(
+    "https://storage.googleapis.com/kagglesdsdata/datasets/19/420/Iris.csv?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=gcp-kaggle-com%40kaggle-161607.iam.gserviceaccount.com%2F20251113%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20251113T192232Z&X-Goog-Expires=259200&X-Goog-SignedHeaders=host&X-Goog-Signature=46017c1f7bbb15b36824491d7b66887cec9a00b863100dbec708337fe0db7a42f5729499e0b79a033303f1deda18f3669368550c231b14e866384a1e6d9938ce4600b18c8b219f3320ec7c6eb7be24d912bd830c305e3e964abc4a20634c78ce5250930a809ffbb55e82aa30f3d5bb6f2b17fc9ad12f5331c13a0198af6399b2d858c445632d39701427cdeed76375d2d658ab2464f532dfb4b8588b9ffe71fb1b57316f43ad0e1cc3db67031b0c97a7b164cab3a694cc9c935d1a6fa949f66b485270897c562b3794446cba1d274d83c795cca50ffd63cff03f61f0ce6e7a9468999e913ce168c25eb625b10bc29d8906e1f96b00454fddb17c55b0a271fc63"
+)
+
+print(df.head())

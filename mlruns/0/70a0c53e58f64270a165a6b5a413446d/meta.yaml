@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/70a0c53e58f64270a165a6b5a413446d/artifacts
+end_time: 1763406155522
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 70a0c53e58f64270a165a6b5a413446d
+run_name: youthful-shrew-780
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763406154141
+status: 3
+tags: []
+user_id: samynko

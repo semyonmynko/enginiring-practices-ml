@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/9f93f5fb82114744afb2a1875f7558e0/artifacts
+end_time: 1763406245837
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9f93f5fb82114744afb2a1875f7558e0
+run_name: nimble-croc-448
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763406244484
+status: 3
+tags: []
+user_id: samynko

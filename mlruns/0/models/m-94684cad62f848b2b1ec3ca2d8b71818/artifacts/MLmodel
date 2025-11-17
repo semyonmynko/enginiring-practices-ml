@@ -1,0 +1,36 @@
+artifact_path: /Users/samynko/Desktop/enginiring-practices-ml/mlruns/0/models/m-94684cad62f848b2b1ec3ca2d8b71818/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.13
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+is_signature_from_type_hint: false
+mlflow_version: 3.6.0
+model_id: m-94684cad62f848b2b1ec3ca2d8b71818
+model_size_bytes: 104770
+model_uuid: m-94684cad62f848b2b1ec3ca2d8b71818
+prompts: null
+run_id: bf0417c0d6b64b0d9cab288383b5f8f4
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "Id", "required": true}, {"type": "double", "name":
+    "SepalLengthCm", "required": true}, {"type": "double", "name": "SepalWidthCm",
+    "required": true}, {"type": "double", "name": "PetalLengthCm", "required": true},
+    {"type": "double", "name": "PetalWidthCm", "required": true}]'
+  outputs: '[{"type": "string", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-11-17 20:25:35.977257'

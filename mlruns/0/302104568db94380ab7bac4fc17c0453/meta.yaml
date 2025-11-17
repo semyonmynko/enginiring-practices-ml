@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/302104568db94380ab7bac4fc17c0453/artifacts
+end_time: 1763406227581
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 302104568db94380ab7bac4fc17c0453
+run_name: silent-fox-927
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763406226200
+status: 3
+tags: []
+user_id: samynko

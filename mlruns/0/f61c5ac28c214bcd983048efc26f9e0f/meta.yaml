@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/0/f61c5ac28c214bcd983048efc26f9e0f/artifacts
+end_time: 1763406073931
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f61c5ac28c214bcd983048efc26f9e0f
+run_name: wise-bird-737
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763406072571
+status: 3
+tags: []
+user_id: samynko

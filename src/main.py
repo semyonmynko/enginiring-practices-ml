@@ -1,29 +1,61 @@
+import time
+
 import mlflow
 import mlflow.sklearn
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.ensemble import (AdaBoostClassifier, ExtraTreesClassifier,
+                              GradientBoostingClassifier,
+                              RandomForestClassifier)
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score, precision_score, recall_score
+from sklearn.model_selection import cross_val_score, train_test_split
+from sklearn.svm import SVC
 
-iris = pd.read_csv("src/data/iris_dataset.csv")
+iris = load_iris()
+X = iris.data
+y = iris.target
 
-X = iris[["Id", "SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm"]]
-y = iris[["Species"]]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
 
-model = RandomForestClassifier()
-model.fit(X, y)
+models = [
+    ("RandomForest", RandomForestClassifier(n_estimators=100)),
+    ("LogisticRegression", LogisticRegression(max_iter=200)),
+    ("SVM", SVC()),
+    ("GradientBoosting", GradientBoostingClassifier()),
+    ("AdaBoost", AdaBoostClassifier()),
+    ("ExtraTrees", ExtraTreesClassifier(n_estimators=100)),
+]
 
-model_name = "random_forest_model_v4"
+for name, model in models:
+    with mlflow.start_run():
+        start_time = time.time()
 
-mlflow.set_tracking_uri("sqlite:///mlflow.db")
+        cv_scores = cross_val_score(model, X_train, y_train, cv=10, scoring="accuracy")
+        accuracy = cv_scores.mean()
 
-with mlflow.start_run():
-    mlflow.log_param("model_type", "RandomForestClassifier")
-    mlflow.log_param("dataset", "Iris")
-    mlflow.log_metric("accuracy", 0.95)
-    mlflow.set_tag("experiment_name", "iris_classification")
-    mlflow.set_tag("version", "1.0")
+        mlflow.log_param("model", name)
+        mlflow.log_param("n_estimators", model.get_params().get("n_estimators", None))
 
-    mlflow.sklearn.log_model(model, "random_forest_model", input_example=X[:5])
+        mlflow.log_metric("accuracy", accuracy)
 
-    run_id = mlflow.active_run().info.run_id
+        training_time = time.time() - start_time
+        mlflow.log_metric("training_time", training_time)
 
-mlflow.register_model(f"runs:/{run_id}/random_forest_model", model_name)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        precision = precision_score(y_test, y_pred, average="weighted", zero_division=1)
+        recall = recall_score(y_test, y_pred, average="weighted", zero_division=1)
+        f1 = f1_score(y_test, y_pred, average="weighted", zero_division=1)
+
+        mlflow.log_metric("precision", precision)
+        mlflow.log_metric("recall", recall)
+        mlflow.log_metric("f1_score", f1)
+
+        mlflow.sklearn.log_model(model, f"{name}_model")
+
+        print(
+            f"Logged {name} with accuracy: {accuracy}, precision: {precision}, recall: {recall}, f1: {f1}, training_time: {training_time}s"
+        )

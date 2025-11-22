@@ -1,0 +1,3 @@
+algorithm: RandomForest
+n_estimators: 150
+max_depth: 8

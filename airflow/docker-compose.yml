@@ -1,0 +1,57 @@
+version: '3.9'
+x-airflow-common:
+  &airflow-common
+  image: ml_airflow:latest
+  build: .
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW__CORE__FERNET_KEY: 'U95Dd7y5vCnKh9Dd7KjOlC7DQx9Zp31Fhrf1pbK8d8s='
+    AIRFLOW__WEBSERVER__SECRET_KEY: 'super_secret_airflow_key_2025'
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth
+    AIRFLOW__CONN_TELEGRAM_ALERTS: 'telegram://8576128618:AAFcbjU9jYwI_9vYiaWE2GdmY9HEXFfAEq0@telegram?chat_id=671960980'
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on:
+    - postgres
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: |
+      /bin/bash -c '
+      airflow db migrate &&
+      airflow users create --username admin --firstname Air --lastname Flow --role Admin --email admin@example.com --password admin
+      '
+    restart: "no"
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+
+volumes:
+  postgres_data:
